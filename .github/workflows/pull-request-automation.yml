@@ -1,0 +1,11 @@
+name: '🤖 Pull Request Automation'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-review:
+    name: 'Auto Review'
+    uses: ./.github/workflows/gemini-review.yml
+    secrets: inherit

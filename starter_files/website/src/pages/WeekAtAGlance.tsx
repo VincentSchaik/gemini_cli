@@ -17,7 +17,7 @@ export const WeekAtAGlance = () => {
           <p className="text-slate-600 dark:text-slate-400">A high-level overview of the summit schedule.</p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="grid gap-8 md:grid-cols-3">
           {[
             {
               day: "Day 1",
@@ -56,13 +56,13 @@ export const WeekAtAGlance = () => {
           ].map((day, i) => (
             <motion.div 
               key={day.day}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col"
             >
-              <div className="p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white">{day.day}</h3>
@@ -73,10 +73,10 @@ export const WeekAtAGlance = () => {
                   </div>
                 </div>
               </div>
-              <div className="p-6 sm:p-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="p-6 space-y-6">
                 {day.events.map((event, j) => (
                   <div key={j} className="flex items-start gap-4">
-                    <div className="mt-1 p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <div className="mt-1 p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 shrink-0">
                       <event.icon className="w-4 h-4" />
                     </div>
                     <div>
