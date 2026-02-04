@@ -1,0 +1,570 @@
+[00:00:00 --> 00:00:03] This week on the Agent Factory.
+[00:00:03 --> 00:00:05] It's the Agentsic Loupon Action.
+[00:00:05 --> 00:00:07] I'm not very good at like sitting down and reading.
+[00:00:07 --> 00:00:11] My read later folder has its own gravitational pull.
+[00:00:11 --> 00:00:14] With AI using AI these days,
+[00:00:14 --> 00:00:16] it is so easy to 10x yourself.
+[00:00:16 --> 00:00:17] 100x it.
+[00:00:17 --> 00:00:18] That's the hard part.
+[00:00:18 --> 00:00:22] Yeah, and my mom watches these so mom, I'm still alive.
+[00:00:22 --> 00:00:27] [♪ OUTRO MUSIC PLAYING [♪
+[00:00:27 --> 00:00:30] Hi everyone and welcome to the Agent Factory,
+[00:00:30 --> 00:00:32] the podcast that goes beyond the hype
+[00:00:32 --> 00:00:35] and dives into building production ready AI agents.
+[00:00:35 --> 00:00:37] I'm Molly Pettit.
+[00:00:37 --> 00:00:38] And I'm Emma Marrage.
+[00:00:38 --> 00:00:42] And today we're going to be diving deep into the Gemini CLI.
+[00:00:42 --> 00:00:45] So we used the CLI a bit in our last episode,
+[00:00:45 --> 00:00:49] including this live vibe coding demo that was a ton of fun.
+[00:00:49 --> 00:00:52] I suggest you check it out if you haven't seen it yet.
+[00:00:52 --> 00:00:54] I'm really excited to show it off in more detail.
+[00:00:54 --> 00:00:58] And for anyone who hasn't heard or used a haven't,
+[00:00:58 --> 00:01:01] hasn't heard of or used the Gemini CLI yet,
+[00:01:01 --> 00:01:05] it's a really powerful AI agent, lives right in your command line.
+[00:01:05 --> 00:01:07] And it's designed to help you with your everyday workflows.
+[00:01:08 --> 00:01:11] Yeah, and I'm really excited because in this episode,
+[00:01:11 --> 00:01:13] we're actually going to show you how to use Gemini CLI
+[00:01:13 --> 00:01:16] for getting up to speed on a new code base,
+[00:01:16 --> 00:01:18] super charging your research,
+[00:01:18 --> 00:01:21] and how you can use it to integrate it into your own automations.
+[00:01:21 --> 00:01:23] Yeah, and to help us do that,
+[00:01:23 --> 00:01:26] we're very excited to have Taylor Mullin,
+[00:01:26 --> 00:01:29] the creator of Gemini CLI with us today.
+[00:01:29 --> 00:01:32] We're going to pick his brain about philosophy behind a tool,
+[00:01:32 --> 00:01:34] and what's next on the roadmap,
+[00:01:34 --> 00:01:36] which I'm very excited to hear about.
+[00:01:36 --> 00:01:37] Yeah, I can't wait.
+[00:01:37 --> 00:01:40] I mean, I've been using the CLI now for a few weeks,
+[00:01:40 --> 00:01:43] and I already feel like it's become a mainstay in my workflow.
+[00:01:43 --> 00:01:45] What about you, Molly, what's your take?
+[00:01:45 --> 00:01:47] Oh, yeah, no, I'm totally sold.
+[00:01:47 --> 00:01:51] For me, the biggest thing is that it lives in the terminal,
+[00:01:51 --> 00:01:53] where I do my work.
+[00:01:53 --> 00:01:55] And I was also able to add it directly to VS code,
+[00:01:55 --> 00:01:58] the IDE I use, so that was super handy.
+[00:01:58 --> 00:02:00] Yeah, I feel like having it integrated
+[00:02:00 --> 00:02:03] into so many different tools makes it indispensable.
+[00:02:03 --> 00:02:06] And also on that note, having Taylor with us here today,
+[00:02:06 --> 00:02:09] who's going to be able to tell us even more about the background
+[00:02:09 --> 00:02:14] and philosophy behind Gemini CLI will be invaluable.
+[00:02:14 --> 00:02:15] But before we talk to Taylor,
+[00:02:15 --> 00:02:19] let's get hands on with some demos on the facts before.
+[00:02:19 --> 00:02:24] Let's tackle a universal developer problem,
+[00:02:26 --> 00:02:28] which is onboarding onto a new code base.
+[00:02:28 --> 00:02:31] I think all of us have had to do this at some point.
+[00:02:31 --> 00:02:33] I'm going to go ahead and show how the Gemini CLI
+[00:02:33 --> 00:02:37] can help speed up this onboarding process.
+[00:02:37 --> 00:02:39] Okay, yeah, so code base exploration,
+[00:02:39 --> 00:02:40] that sounds pretty cool.
+[00:02:40 --> 00:02:43] And I feel like this will also be a really good showcase
+[00:02:43 --> 00:02:47] for Gemini CLI's massive 1 million token context window.
+[00:02:47 --> 00:02:49] I feel like that's kind of the difference
+[00:02:49 --> 00:02:51] between asking questions about a single file
+[00:02:51 --> 00:02:55] versus maybe the entire architecture all at one.
+[00:02:55 --> 00:02:56] Yeah, yeah, totally.
+[00:02:57 --> 00:03:00] And so to start, I'm actually not even
+[00:03:00 --> 00:03:02] going to clone the repo myself.
+[00:03:02 --> 00:03:05] I'm just going to ask the agent to do it for me.
+[00:03:05 --> 00:03:09] So I've decided to use Google's ADK repo for this example.
+[00:03:09 --> 00:03:12] So ADK stands for agent development kit.
+[00:03:12 --> 00:03:17] So I'm just going to say clone the Google ADK Python.
+[00:03:17 --> 00:03:19] On repo from GitHub.
+[00:03:21 --> 00:03:22] And I'm going to see what it does.
+[00:03:25 --> 00:03:27] Okay, so it's searching the web,
+[00:03:27 --> 00:03:30] trying to find the right link.
+[00:03:31 --> 00:03:33] Awesome, it found the right link.
+[00:03:33 --> 00:03:36] It's asking me for permission to clone it.
+[00:03:36 --> 00:03:37] Go ahead.
+[00:03:41 --> 00:03:42] Cool, yeah.
+[00:03:42 --> 00:03:45] And this looks like it's the agentic loop in action.
+[00:03:45 --> 00:03:47] It's kind of reasoning that it needs a piece of information
+[00:03:48 --> 00:03:50] and then chooses a tool to get that information
+[00:03:50 --> 00:03:53] it looks like and then it uses that information
+[00:03:53 --> 00:03:55] to complete the original request.
+[00:03:55 --> 00:03:57] And then also at the same time, it asks you
+[00:03:57 --> 00:03:59] if you want to proceed taking back in.
+[00:03:59 --> 00:04:02] So yeah, this is a super helpful workflow.
+[00:04:02 --> 00:04:06] I think the way I want to tackle this is let's imagine
+[00:04:06 --> 00:04:09] that we're like a new contributor to this project.
+[00:04:11 --> 00:04:13] What do you think is the first, like what's the first thing
+[00:04:13 --> 00:04:16] you'd want to do if you were a new contributor to a project
+[00:04:16 --> 00:04:19] and you wanted to figure out how to go forward?
+[00:04:19 --> 00:04:21] Feel like I would want to get a high level understanding
+[00:04:21 --> 00:04:22] of the project.
+[00:04:22 --> 00:04:25] I think I learned best maybe from like a top down perspective.
+[00:04:25 --> 00:04:29] Things like text stack, how code of structure, stuff like that.
+[00:04:29 --> 00:04:31] Yeah, yeah, totally.
+[00:04:31 --> 00:04:35] Like in the past and then not so distant past actually,
+[00:04:36 --> 00:04:39] you might start with like reading a readme file,
+[00:04:39 --> 00:04:44] maybe contributing file, start piecing things together that way.
+[00:04:45 --> 00:04:48] And like I'm not very good at like sitting down
+[00:04:48 --> 00:04:51] and reading a huge amount of documentation to be quite honest.
+[00:04:51 --> 00:04:54] So instead, I'm going to ask the Gemini CLI
+[00:04:54 --> 00:04:57] to perform a high level audit of the entire directory.
+[00:04:57 --> 00:04:58] So let's see.
+[00:05:00 --> 00:05:02] I'm going to ask the Gemini CLI agent
+[00:05:02 --> 00:05:05] for a complete project overview.
+[00:05:05 --> 00:05:07] I want it to tell me the purpose, the text stack,
+[00:05:07 --> 00:05:10] and to analyze architecture all in one go.
+[00:05:11 --> 00:05:15] Yeah, and I feel like that's much more powerful
+[00:05:15 --> 00:05:18] than just relying on one readme document.
+[00:05:18 --> 00:05:22] Like this way, you can kind of point it at the whole directory.
+[00:05:22 --> 00:05:24] And it's cool because you're asking it to like synthesize everything,
+[00:05:24 --> 00:05:28] the source, build file, the docs, all of the code
+[00:05:28 --> 00:05:31] into a single coherent sort of overview, right?
+[00:05:31 --> 00:05:35] Yeah, yeah, yeah, it's like,
+[00:05:35 --> 00:05:37] it's ingesting the entire directory
+[00:05:38 --> 00:05:41] to build out this like complete mental model of the project,
+[00:05:41 --> 00:05:42] which is super helpful.
+[00:05:43 --> 00:05:45] Okay, great.
+[00:05:45 --> 00:05:50] Starting to output this looks really good and helpful.
+[00:05:52 --> 00:05:55] Yeah, it identified the purpose, the text stack,
+[00:05:55 --> 00:05:59] core dependencies, all that good stuff
+[00:05:59 --> 00:06:02] that's like helpful to kind of know what the outlet.
+[00:06:02 --> 00:06:03] Yeah, it's really verbose.
+[00:06:03 --> 00:06:06] What it did summary, I wouldn't have been able to write it
+[00:06:06 --> 00:06:08] better myself, right?
+[00:06:08 --> 00:06:09] Yeah, and now for the part of the show
+[00:06:09 --> 00:06:11] that we've both been waiting for,
+[00:06:11 --> 00:06:13] we're gonna shift gears and get a deep dive
+[00:06:13 --> 00:06:16] into the philosophy and future of Gemini CLI.
+[00:06:17 --> 00:06:19] We'd now like to welcome to the podcast,
+[00:06:19 --> 00:06:22] Taylor Mullin, creator of Gemini CLI.
+[00:06:22 --> 00:06:25] Taylor, thank you so much for joining us.
+[00:06:25 --> 00:06:27] Thanks for having me, this is fun to be here.
+[00:06:27 --> 00:06:29] Yeah, so let's start at the very beginning.
+[00:06:29 --> 00:06:32] Could you tell us the origin story of the Gemini CLI?
+[00:06:32 --> 00:06:35] Like, what was the initial spark or inspiration
+[00:06:35 --> 00:06:38] that led to it and how did things go from there?
+[00:06:38 --> 00:06:39] I'm very curious to hear.
+[00:06:39 --> 00:06:41] Oh yeah, it's kind of crazy.
+[00:06:41 --> 00:06:45] It started about a year and a half ago, weirdly enough, right?
+[00:06:45 --> 00:06:46] So long ago.
+[00:06:46 --> 00:06:48] But like at the time, I was experimenting
+[00:06:48 --> 00:06:51] with multi agent systems and trying to get like
+[00:06:51 --> 00:06:53] the most out of our elements.
+[00:06:53 --> 00:06:56] And so at the time, like I had the system where they go.
+[00:06:56 --> 00:06:58] Multiple personas, they were talking to each other
+[00:06:58 --> 00:07:00] and they were doing a lot of cool things
+[00:07:00 --> 00:07:02] and it was surfaced in a lot of different ways.
+[00:07:02 --> 00:07:06] It was surfaced in IDE, it was surfaced in a CLI.
+[00:07:06 --> 00:07:07] It was surfaced in the web.
+[00:07:07 --> 00:07:10] And as I was playing with these things,
+[00:07:10 --> 00:07:12] the thing that really stuck for me was the CLI.
+[00:07:14 --> 00:07:16] It was so easy to use, it was a lightweight.
+[00:07:17 --> 00:07:21] But at the time, like it took 30 requests,
+[00:07:21 --> 00:07:25] like one user request resulted in like 30 LLM requests
+[00:07:25 --> 00:07:26] behind the scenes.
+[00:07:26 --> 00:07:30] And those 30 requests was a lot for the time.
+[00:07:30 --> 00:07:33] It took a minute and a half to respond to anything.
+[00:07:33 --> 00:07:34] And the quality was there.
+[00:07:34 --> 00:07:38] Like this was something at the time that was just too much.
+[00:07:38 --> 00:07:40] Like we also had limited context window.
+[00:07:42 --> 00:07:46] And so in that realm, it being a CLI
+[00:07:46 --> 00:07:48] and it having all these constraints,
+[00:07:48 --> 00:07:50] we scrapped the project.
+[00:07:50 --> 00:07:52] And that was kind of challenging at the time.
+[00:07:52 --> 00:07:54] It was almost a little bit too early.
+[00:07:54 --> 00:07:55] Yeah.
+[00:07:55 --> 00:07:55] It was like, is this one of those things?
+[00:07:55 --> 00:07:57] Okay, no one's gonna want to use this
+[00:07:57 --> 00:08:00] because it cost too much.
+[00:08:00 --> 00:08:02] Couldn't absorb enough information
+[00:08:02 --> 00:08:04] and it took too long to respond.
+[00:08:04 --> 00:08:05] Which is kind of a trippy thing
+[00:08:05 --> 00:08:08] like fast forwarding to the day, right?
+[00:08:08 --> 00:08:10] We're very much used to, you have deep research.
+[00:08:10 --> 00:08:12] Like you click a button and then you go off
+[00:08:12 --> 00:08:13] and you get a coffee and you come back
+[00:08:13 --> 00:08:14] and hopefully it's done.
+[00:08:14 --> 00:08:18] And it's crazy, it's so different.
+[00:08:18 --> 00:08:22] But during that time, like it was too early.
+[00:08:22 --> 00:08:24] And then today, like me, Google and me,
+[00:08:24 --> 00:08:28] really trying to build this future of developer tools.
+[00:08:28 --> 00:08:31] Like there was this ecosystem of CLIs
+[00:08:31 --> 00:08:34] that was just taking hold in the community, right?
+[00:08:34 --> 00:08:37] And it really proved that people are willing to wait.
+[00:08:38 --> 00:08:42] People are willing to use a CLI
+[00:08:42 --> 00:08:45] and they found it as compelling as they I did back then.
+[00:08:45 --> 00:08:46] It's like when all this started to happen,
+[00:08:46 --> 00:08:49] I'm like, oh my goodness, maybe I was just too early
+[00:08:49 --> 00:08:52] and maybe we should try and give this another go.
+[00:08:52 --> 00:08:54] And so that, like they really grounded
+[00:08:54 --> 00:08:57] at least the motivation of saying, okay, I've done this before.
+[00:08:58 --> 00:09:01] And like I've learned a lot over my entire career
+[00:09:01 --> 00:09:04] of what it means to build developer tools
+[00:09:04 --> 00:09:06] and what it means, it's like build something
+[00:09:06 --> 00:09:10] that can kind of span a lot of ecosystems.
+[00:09:10 --> 00:09:13] And so we started Gemini CLI from that point.
+[00:09:13 --> 00:09:15] So it's like I basically, I went dark.
+[00:09:15 --> 00:09:17] I honestly, I went dark for like a week.
+[00:09:17 --> 00:09:20] And I'm like, okay, I'm gonna do this.
+[00:09:20 --> 00:09:21] I have this idea that when dark for a week,
+[00:09:21 --> 00:09:24] talked to no one, spent every waking second,
+[00:09:24 --> 00:09:27] was getting like five to six hours of sleep in the night.
+[00:09:27 --> 00:09:30] And this was like, I think it was like Saturday through Saturday,
+[00:09:30 --> 00:09:31] so Sunday or something like that.
+[00:09:31 --> 00:09:34] And then like that Monday, I had a prototype.
+[00:09:34 --> 00:09:35] Oh wow.
+[00:09:35 --> 00:09:39] Did a video, I put it out and Googlers started just going,
+[00:09:39 --> 00:09:42] like wild for it, it was super cool.
+[00:09:42 --> 00:09:44] Yeah, thanks so much for sharing that.
+[00:09:44 --> 00:09:45] And so I guess building on that, you know,
+[00:09:45 --> 00:09:47] making the Gemini CLI open source
+[00:09:47 --> 00:09:50] was a very deliberate choice, I think,
+[00:09:50 --> 00:09:53] which you've linked to security and learning
+[00:09:53 --> 00:09:54] and a whole host of other things.
+[00:09:54 --> 00:09:58] So how does this open trust-based approach contrast
+[00:09:58 --> 00:10:01] with the more like black box nature of other,
+[00:10:01 --> 00:10:04] maybe major AI tools out there?
+[00:10:04 --> 00:10:08] What kind of ecosystem do you hope that this will foster
+[00:10:08 --> 00:10:10] the transparency will foster?
+[00:10:10 --> 00:10:11] Yeah, it's like to be free.
+[00:10:11 --> 00:10:15] Like I started my career in open source.
+[00:10:15 --> 00:10:17] Like I have always been in developer tooling
+[00:10:17 --> 00:10:19] or frameworks and one thing and the other
+[00:10:19 --> 00:10:21] and open source has been like front and center.
+[00:10:21 --> 00:10:24] So like from day zero, that was a key thing in my head.
+[00:10:24 --> 00:10:28] But most folks feel like, oh, it's open source.
+[00:10:28 --> 00:10:30] Why would you not go ahead and do it?
+[00:10:30 --> 00:10:32] Open source is not free.
+[00:10:32 --> 00:10:32] It's not free.
+[00:10:32 --> 00:10:35] It's actually a very challenging thing to get right.
+[00:10:35 --> 00:10:39] But oh my gosh, it's so rewarding when you do.
+[00:10:39 --> 00:10:42] So like knowing this, it was always this question like,
+[00:10:42 --> 00:10:45] okay, let's weigh the actual balance.
+[00:10:45 --> 00:10:46] Like should it be open source?
+[00:10:46 --> 00:10:48] Should it not be in the answers ended
+[00:10:48 --> 00:10:49] to be like, obviously it should be open source.
+[00:10:49 --> 00:10:52] Like especially with a CLI tool like this.
+[00:10:52 --> 00:10:55] That's for like for a wide variety of people.
+[00:10:55 --> 00:10:57] And of course, developers as well.
+[00:10:57 --> 00:10:59] But something that people could see
+[00:10:59 --> 00:11:03] and could understand, okay, it's running on my box.
+[00:11:03 --> 00:11:05] It has a lot of capability.
+[00:11:05 --> 00:11:06] So what does it do?
+[00:11:06 --> 00:11:07] And can I trust it?
+[00:11:07 --> 00:11:10] It's like that kind of like you mentioned the security aspect.
+[00:11:10 --> 00:11:13] That was one of our biggest reasons for
+[00:11:13 --> 00:11:14] like open sourcing this.
+[00:11:14 --> 00:11:17] We want people to see exactly how it operates.
+[00:11:17 --> 00:11:19] So they can have they can have trust.
+[00:11:19 --> 00:11:21] They know we're not doing anything behind the scenes.
+[00:11:21 --> 00:11:23] They know exactly what's happening.
+[00:11:23 --> 00:11:26] And also means that if we make a mistake
+[00:11:27 --> 00:11:30] that we can fix it, that we have the entire community
+[00:11:30 --> 00:11:32] to help keep us grounded
+[00:11:32 --> 00:11:34] and what makes the most secure sense.
+[00:11:34 --> 00:11:36] We, to be frank, we struggle to keep up.
+[00:11:38 --> 00:11:41] We totally struggle to keep up with all the energy they give.
+[00:11:41 --> 00:11:44] But to be frank, it's one of the most important things
+[00:11:44 --> 00:11:45] that we have.
+[00:11:45 --> 00:11:47] And so when people ask me like,
+[00:11:47 --> 00:11:50] what is the number one thing that's on your mind
+[00:11:50 --> 00:11:52] for Jim and I see a line like it's our open sourcing community?
+[00:11:52 --> 00:11:54] Like by far, it's number one.
+[00:11:55 --> 00:11:58] And that's like, I think we've shut down the team.
+[00:11:58 --> 00:12:01] Like literally everyone on the team for like days
+[00:12:01 --> 00:12:02] in order to make sure that we can try and keep up
+[00:12:02 --> 00:12:04] with the amount of traction
+[00:12:04 --> 00:12:06] and the amount of energy coming at us.
+[00:12:06 --> 00:12:08] But I think that's because we see the value.
+[00:12:08 --> 00:12:12] Like we see how valuable it is to kind of build this
+[00:12:12 --> 00:12:13] in the open together.
+[00:12:13 --> 00:12:15] So that folks have that confidence
+[00:12:15 --> 00:12:16] that we're doing the right thing.
+[00:12:16 --> 00:12:20] We have that confidence or building the right things as well.
+[00:12:20 --> 00:12:21] And it's funny.
+[00:12:21 --> 00:12:23] We actually still do the updates today.
+[00:12:23 --> 00:12:26] Like we actually on all of our socials will post
+[00:12:26 --> 00:12:28] every single week on Wednesdays,
+[00:12:28 --> 00:12:32] will post like 100 to 150 features weekly.
+[00:12:32 --> 00:12:35] Features, bugs, enhancements, all they love.
+[00:12:35 --> 00:12:38] You said 150 features a week, right?
+[00:12:38 --> 00:12:40] That's a lot.
+[00:12:40 --> 00:12:44] What are the mechanisms that you use?
+[00:12:44 --> 00:12:46] You and the team used to make that possible.
+[00:12:46 --> 00:12:47] Because we use it to build itself,
+[00:12:47 --> 00:12:50] like it allows us to,
+[00:12:50 --> 00:12:51] allows to do a lot more.
+[00:12:51 --> 00:12:54] Like one of the coolest things I think that we started doing
+[00:12:54 --> 00:12:56] is when you teach it to boot itself,
+[00:12:57 --> 00:13:02] it means it can spin up parallel like threads simultaneously.
+[00:13:02 --> 00:13:04] And each of those can go ahead
+[00:13:04 --> 00:13:06] and tackle different problems.
+[00:13:06 --> 00:13:08] Combine that with get work trees
+[00:13:08 --> 00:13:09] and you're going even further.
+[00:13:09 --> 00:13:12] So far gone are the days of being able to ship
+[00:13:12 --> 00:13:14] like twice a year,
+[00:13:14 --> 00:13:17] which is a huge part of software historically.
+[00:13:17 --> 00:13:22] Because in AI, every single week is like an insane amount of time.
+[00:13:22 --> 00:13:25] Every single month is like, yeah.
+[00:13:25 --> 00:13:26] Absolutely.
+[00:13:26 --> 00:13:28] So I think it's honestly,
+[00:13:28 --> 00:13:30] it's just that it's a mindset such a cultural thing
+[00:13:30 --> 00:13:31] that we've built.
+[00:13:31 --> 00:13:33] And I also want to kind of acknowledge
+[00:13:33 --> 00:13:35] our open source community again as well,
+[00:13:35 --> 00:13:39] which is they really help make it possible
+[00:13:39 --> 00:13:40] because without folks really contributing
+[00:13:40 --> 00:13:42] helping each other out even.
+[00:13:44 --> 00:13:46] I don't know how easy it would be.
+[00:13:46 --> 00:13:48] Like we put human eyes on every single one
+[00:13:48 --> 00:13:50] of the changes that go and we don't,
+[00:13:50 --> 00:13:53] we're not just like letting things go without looking at them.
+[00:13:53 --> 00:13:55] It's just we have a lot of really passionate,
+[00:13:55 --> 00:13:59] really smart, capable and motivated people
+[00:13:59 --> 00:14:01] to kind of make the right decisions at scale.
+[00:14:02 --> 00:14:06] You use Gemini CLI to build Gemini CLI.
+[00:14:06 --> 00:14:07] So I'm curious to tell a little bit more
+[00:14:07 --> 00:14:09] about how that journey started
+[00:14:09 --> 00:14:12] and kind of what was your favorite part of it.
+[00:14:12 --> 00:14:13] Yeah, it's kind of nuts.
+[00:14:13 --> 00:14:16] Like I still remember actually the first feature
+[00:14:16 --> 00:14:20] it built for itself, which is kind of crazy.
+[00:14:20 --> 00:14:22] It was, I see it's still long,
+[00:14:22 --> 00:14:23] but it really wasn't that long ago.
+[00:14:24 --> 00:14:29] But early on, we knew that markdown rendering
+[00:14:29 --> 00:14:31] was gonna be important, right?
+[00:14:31 --> 00:14:33] So I'm sitting there and I'm trying to build out
+[00:14:33 --> 00:14:35] it's a ability to render markdown
+[00:14:35 --> 00:14:38] instead of just seeing the raw markdowns in the terminal.
+[00:14:38 --> 00:14:40] And there was a lot of utilities and frameworks
+[00:14:40 --> 00:14:42] to make this possible.
+[00:14:42 --> 00:14:45] And I kept, I forget the exacto of the wall
+[00:14:45 --> 00:14:46] that I was hitting, but I kept hitting a wall
+[00:14:46 --> 00:14:47] and using one of these frameworks
+[00:14:47 --> 00:14:49] that was like just a limiter.
+[00:14:49 --> 00:14:51] And this was like a hard stop for me.
+[00:14:51 --> 00:14:55] And okay, I need to progress.
+[00:14:55 --> 00:14:56] I need to do something and I ended up asking,
+[00:14:56 --> 00:14:59] hey, like what are my options?
+[00:14:59 --> 00:15:00] That was the first time I was asking
+[00:15:00 --> 00:15:02] because at that point I was just asking it
+[00:15:02 --> 00:15:04] more questions to tell learn more.
+[00:15:05 --> 00:15:08] And it's like, oh, I can write a markdown parser for you.
+[00:15:09 --> 00:15:11] It's like cool, go for it.
+[00:15:11 --> 00:15:15] And so this is the first time when it one shot
+[00:15:15 --> 00:15:16] it's own markdown rendering.
+[00:15:17 --> 00:15:21] And to be frank, a variant of that is still used today
+[00:15:21 --> 00:15:22] that actually renders it.
+[00:15:22 --> 00:15:24] So if you're ever curious, like Gemini CLA
+[00:15:24 --> 00:15:28] CLA has written a significant amount of its own code.
+[00:15:28 --> 00:15:29] It's super significant amount.
+[00:15:29 --> 00:15:31] That's so cool.
+[00:15:31 --> 00:15:35] Yeah, it's, we doubt, like I think the biggest thing
+[00:15:35 --> 00:15:37] that we think about on the team is,
+[00:15:37 --> 00:15:39] where they are using AI these days,
+[00:15:39 --> 00:15:41] it is so easy to 10x yourself,
+[00:15:41 --> 00:15:46] which sounds crazy to say, but 10xing is easy these days.
+[00:15:47 --> 00:15:50] 100xing, that's the hard part.
+[00:15:50 --> 00:15:53] Like that is where you really start getting into
+[00:15:53 --> 00:15:55] how can I parallelize my workflows
+[00:15:55 --> 00:15:58] to make sure my time that I'm investing
+[00:15:58 --> 00:16:00] into each of these things is best spent.
+[00:16:00 --> 00:16:03] Because model some cells that we talked about it.
+[00:16:03 --> 00:16:05] There's so much that's left unsaid
+[00:16:05 --> 00:16:09] when asking a question, it still needs human feedback
+[00:16:09 --> 00:16:11] a lot of the times in order to be effective.
+[00:16:11 --> 00:16:13] Like things don't just get one shot of the left, right?
+[00:16:13 --> 00:16:16] Of course you see that in all the videos out there
+[00:16:16 --> 00:16:18] and like all the highlights,
+[00:16:18 --> 00:16:20] but one shot in rarely happens.
+[00:16:20 --> 00:16:22] So how do you optimize your time to make it so
+[00:16:22 --> 00:16:26] that multi-shot scenarios are the land super well
+[00:16:26 --> 00:16:28] and they can really amplify what you do?
+[00:16:28 --> 00:16:30] Another thing I'm curious about is,
+[00:16:30 --> 00:16:32] are there any like methodologies you think about
+[00:16:32 --> 00:16:34] when using Gemini CLA?
+[00:16:35 --> 00:16:37] What's your mentality on how the tool operates?
+[00:16:37 --> 00:16:41] It gets grounded in a lot of my developer background,
+[00:16:41 --> 00:16:44] especially with AI, which is,
+[00:16:44 --> 00:16:49] I personally feel like there's so much that's left unsaid
+[00:16:49 --> 00:16:50] when people will do a prop.
+[00:16:50 --> 00:16:51] So like one of the big things
+[00:16:51 --> 00:16:53] is this is context engineering.
+[00:16:53 --> 00:16:55] It's kind of grounded in the same mindset,
+[00:16:55 --> 00:17:00] which is when you ask a question to your AI of choice,
+[00:17:01 --> 00:17:03] you're giving it as much information
+[00:17:03 --> 00:17:07] as you possibly can to enable it to derive the right answer.
+[00:17:07 --> 00:17:10] Now of course you're also leaning on its ability
+[00:17:10 --> 00:17:13] to like figure out more information
+[00:17:13 --> 00:17:14] and dig through your co-base
+[00:17:15 --> 00:17:17] or whatever you're about to be doing at the time,
+[00:17:17 --> 00:17:20] but that alone is a really challenging spot
+[00:17:20 --> 00:17:23] because it can't know those offline conversations
+[00:17:23 --> 00:17:25] you have with your colleague or your friend.
+[00:17:25 --> 00:17:29] It can't know, I guess it usually doesn't know your emails
+[00:17:29 --> 00:17:30] or your chat messages, right?
+[00:17:30 --> 00:17:31] I guess it could,
+[00:17:31 --> 00:17:32] but it doesn't typically know that
+[00:17:32 --> 00:17:35] all those pieces of context really feed into
+[00:17:35 --> 00:17:37] building a coherent response.
+[00:17:38 --> 00:17:39] So if you're currently writing tests
+[00:17:39 --> 00:17:41] and you ask to go ahead and implement something,
+[00:17:41 --> 00:17:43] chances are you wanted to implement that
+[00:17:43 --> 00:17:45] in the form of tests, right?
+[00:17:45 --> 00:17:47] Because it's your current workflow.
+[00:17:47 --> 00:17:48] That methodology though,
+[00:17:48 --> 00:17:51] it kind of rings true to every decision we make.
+[00:17:52 --> 00:17:55] I think the thing I tell the team is that
+[00:17:55 --> 00:17:59] do what a person would do and don't take shortcuts.
+[00:17:59 --> 00:18:00] So one thing that might be surprising to folks
+[00:18:00 --> 00:18:02] is we don't use embeddings.
+[00:18:02 --> 00:18:04] Like Brincess for search,
+[00:18:04 --> 00:18:06] we do not index your code base.
+[00:18:06 --> 00:18:08] We do a gentex search,
+[00:18:08 --> 00:18:11] which means how you as a person
+[00:18:11 --> 00:18:14] or as a developer would dig through a piece of code,
+[00:18:14 --> 00:18:15] we do the same thing.
+[00:18:15 --> 00:18:17] We'll do fine, we'll do,
+[00:18:17 --> 00:18:18] we'll grab our way through the code base,
+[00:18:18 --> 00:18:21] we'll open files or read them,
+[00:18:21 --> 00:18:24] we'll effectively run commands like find all references
+[00:18:24 --> 00:18:26] on your behalf if we need to
+[00:18:26 --> 00:18:29] to find out what's the next piece of the puzzle.
+[00:18:29 --> 00:18:30] Because in the end,
+[00:18:30 --> 00:18:32] we're trying to provide the right context
+[00:18:32 --> 00:18:34] to the LM so that it's grounded
+[00:18:34 --> 00:18:39] in every single thing it does to come to a good result.
+[00:18:39 --> 00:18:41] So I think it's probably the biggest one.
+[00:18:42 --> 00:18:44] I think that kind of really resonates with us.
+[00:18:44 --> 00:18:46] Something that I think is really cool is,
+[00:18:46 --> 00:18:48] maybe I'll ask the CLI to do something
+[00:18:48 --> 00:18:51] and it'll try to do the thing,
+[00:18:51 --> 00:18:54] but be like, well, I can't actually do this.
+[00:18:54 --> 00:18:56] But then you'll give me the steps that it needs to take
+[00:18:56 --> 00:18:58] in order to do it and be like,
+[00:18:58 --> 00:19:00] are you okay with me going ahead and doing these steps
+[00:19:00 --> 00:19:02] to do the thing that I need to do
+[00:19:02 --> 00:19:03] to get to your original request,
+[00:19:03 --> 00:19:05] which is very cool.
+[00:19:06 --> 00:19:07] I love that.
+[00:19:07 --> 00:19:11] That's such a huge unlock as we call it self-healing.
+[00:19:11 --> 00:19:15] It's ability to self-heal, goes so far.
+[00:19:15 --> 00:19:16] And it'll try things,
+[00:19:16 --> 00:19:18] it has a good idea of what's on your box
+[00:19:18 --> 00:19:20] and it tries to use all those things that,
+[00:19:20 --> 00:19:21] when it can't do it,
+[00:19:21 --> 00:19:23] it's so good at coming up with other alternatives.
+[00:19:23 --> 00:19:25] I recall this one scenario
+[00:19:25 --> 00:19:27] when I was talking to our marketing folks
+[00:19:27 --> 00:19:30] and I was giving them a demo to show what it could do.
+[00:19:31 --> 00:19:32] And then the first question was,
+[00:19:32 --> 00:19:35] oh, can I, can you give me a link to this?
+[00:19:35 --> 00:19:36] And I'm like, oh,
+[00:19:38 --> 00:19:40] we don't have built-in deploy functionality.
+[00:19:40 --> 00:19:44] There's a cloud run extension actually being released
+[00:19:44 --> 00:19:48] very soon that will enable this, just so folks know.
+[00:19:48 --> 00:19:49] But we don't have that built-in.
+[00:19:49 --> 00:19:50] And so they're asked,
+[00:19:50 --> 00:19:51] how can we do this?
+[00:19:51 --> 00:19:53] I'm like, okay, well, let me just ask.
+[00:19:54 --> 00:19:58] And what it did is it ended up creating a GitHub repository
+[00:19:58 --> 00:20:00] and GitHub repositories have a thing called GitHub pages,
+[00:20:00 --> 00:20:02] which allows you to host static content.
+[00:20:02 --> 00:20:05] And then it pushed this content to it
+[00:20:05 --> 00:20:07] and it gave me a link and I gave it,
+[00:20:07 --> 00:20:09] I'm like, I had never even considered that.
+[00:20:09 --> 00:20:10] And my question was,
+[00:20:10 --> 00:20:12] how do I give this person a link in it,
+[00:20:12 --> 00:20:14] but all the other pieces together
+[00:20:14 --> 00:20:16] to kind of make that a reality?
+[00:20:16 --> 00:20:18] Like the scrap, scrapiest developer.
+[00:20:18 --> 00:20:20] Yeah, I'm almost thinking of the use case
+[00:20:20 --> 00:20:22] where I'm like, hey, Gemini, CLI,
+[00:20:22 --> 00:20:24] how can I like tell my mom that I'm still alive?
+[00:20:24 --> 00:20:27] Like, update her and it'll like ask me.
+[00:20:27 --> 00:20:28] Maybe you should do that,
+[00:20:28 --> 00:20:29] but here are the steps that I would take.
+[00:20:29 --> 00:20:30] Like, are you okay?
+[00:20:30 --> 00:20:32] I would go up your text messages
+[00:20:32 --> 00:20:33] and whatever.
+[00:20:33 --> 00:20:34] So it's multiple.
+[00:20:34 --> 00:20:35] Totally.
+[00:20:35 --> 00:20:36] Yeah.
+[00:20:36 --> 00:20:37] And my mom watches these.
+[00:20:37 --> 00:20:39] So mom, I'm still alive.
+[00:20:39 --> 00:20:39] Who are you?
+[00:20:39 --> 00:20:43] Well, and also a moment ago,
+[00:20:43 --> 00:20:46] you mentioned something about like an upcoming feature
+[00:20:46 --> 00:20:47] on the roadmap.
+[00:20:48 --> 00:20:51] So what else is coming up on the roadmap?
+[00:20:51 --> 00:20:53] Like, are there any features coming up
+[00:20:53 --> 00:20:56] that you're most excited for?
+[00:20:56 --> 00:20:58] Because we've viewed Gemini CL as being a lot more
+[00:20:58 --> 00:20:59] than just developers.
+[00:20:59 --> 00:21:00] And because we've seen internally,
+[00:21:00 --> 00:21:02] it's unlocking every profession,
+[00:21:02 --> 00:21:04] whether you're a marketer, a financeer,
+[00:21:04 --> 00:21:06] to of course, a software developer.
+[00:21:06 --> 00:21:09] It kind of attacks, it hits all those buttons.
+[00:21:09 --> 00:21:13] To make it so we can work with every one of these professions,
+[00:21:13 --> 00:21:16] we're really doubling down an extensibility.
+[00:21:16 --> 00:21:19] So you can heavily extend Gemini CLI.
+[00:21:19 --> 00:21:20] And this is not just MCP servers.
+[00:21:20 --> 00:21:23] This is like literally you can install an extension,
+[00:21:23 --> 00:21:26] which is a bundle of it could be MCP servers,
+[00:21:26 --> 00:21:29] specific instructions, specific commands,
+[00:21:29 --> 00:21:32] lots of different things to drive a difference.
+[00:21:32 --> 00:21:34] So this is the Cloud Run one that I had mentioned earlier.
+[00:21:34 --> 00:21:35] They have an extension.
+[00:21:35 --> 00:21:39] And this extension can be Gemini extensions installed
+[00:21:39 --> 00:21:41] and then you can pass in Cloud Run.
+[00:21:41 --> 00:21:44] And it's seamless installation,
+[00:21:44 --> 00:21:46] but enables you to really curate the experience
+[00:21:46 --> 00:21:48] to your preferences.
+[00:21:48 --> 00:21:52] So for instance, if you are a Go developer
+[00:21:52 --> 00:21:55] and you want to make sure your environment is super go-friendly,
+[00:21:55 --> 00:21:58] you'll install the right MCP servers to make that happen.
+[00:21:58 --> 00:22:00] Or if you are, it's a content generator,
+[00:22:00 --> 00:22:04] maybe you'll hook it up to all your various socials.
+[00:22:04 --> 00:22:07] Maybe you'll create a generative media APIs,
+[00:22:07 --> 00:22:08] and you'll also hook that up to it.
+[00:22:08 --> 00:22:10] So being able to turn these on in office,
+[00:22:10 --> 00:22:11] I mean, it's super important to us
+[00:22:11 --> 00:22:14] because we know that there's a lot of use cases.
+[00:22:14 --> 00:22:16] And so that's the biggest feature
+[00:22:16 --> 00:22:17] that we're going to be talking about soon,
+[00:22:17 --> 00:22:20] which is how to build these extensions,
+[00:22:20 --> 00:22:23] how to install them, manage them,
+[00:22:23 --> 00:22:27] with the intention of making this super seamless for people,
+[00:22:27 --> 00:22:29] where people can spin up their own registries for they want to.
+[00:22:29 --> 00:22:31] We're eventually going to have a centralized registry
+[00:22:31 --> 00:22:34] for all of our extensions.
+[00:22:34 --> 00:22:36] But the extension ecosystem is going to be the big one.
+[00:22:36 --> 00:22:39] I can't wait to see what people build.
+[00:22:39 --> 00:22:42] And we have a number of them coming out from Google,
+[00:22:42 --> 00:22:45] from Cloud, and just in general,
+[00:22:45 --> 00:22:49] to really hook Jim and I CLI into everything
+[00:22:49 --> 00:22:50] in a really seamless way.
+[00:22:50 --> 00:22:52] Yeah, Taylor, I just wanted to thank you so much
+[00:22:52 --> 00:22:53] for sharing your insights with us
+[00:22:53 --> 00:22:55] in our audience of agent builders.
+[00:22:55 --> 00:22:58] It's been a fascinating look behind the curtain of Gemini CLI
+[00:22:58 --> 00:22:59] and you've shared so much with us.
+[00:22:59 --> 00:23:02] So, so I want to thank you.
+[00:23:02 --> 00:23:03] Oh, thanks for having me.
+[00:23:03 --> 00:23:05] This has been an amazing conversation.
+[00:23:05 --> 00:23:07] Like, I love diving in,
+[00:23:07 --> 00:23:10] and especially love just sharing stories.
+[00:23:10 --> 00:23:12] And if you haven't checked this out,
+[00:23:12 --> 00:23:14] check set on GitHub.
+[00:23:14 --> 00:23:17] You'll find us all the amazing, like,
+[00:23:17 --> 00:23:21] Gemini's Google Dash Gemini slash Gemini CLI on GitHub.
+[00:23:21 --> 00:23:24] And then of course, you can look for us on socials as well
+[00:23:24 --> 00:23:27] to get those weekly updates that we push out regularly.
+[00:23:27 --> 00:23:29] Oh, yeah, good plug.
+[00:23:29 --> 00:23:30] Yeah, thank you so much, Taylor.
+[00:23:30 --> 00:23:32] This was so fun.
+[00:23:32 --> 00:23:33] Yeah, thanks so much, Taylor.
+[00:23:33 --> 00:23:35] And that's our show for today.
+[00:23:35 --> 00:23:37] Thank you for joining us for this deep dive
+[00:23:37 --> 00:23:39] into the Gemini CLI.
+[00:23:39 --> 00:23:42] We highly recommend you try it out for yourself.
+[00:23:42 --> 00:23:45] And if you enjoyed this episode of the Agent Factory,
+[00:23:45 --> 00:23:47] check us out next time where we'll continue diving
+[00:23:47 --> 00:23:50] into the world of AI agents.
+[00:23:50 --> 00:23:51] Until then, I'm Emmett Marrage.
+[00:23:51 --> 00:23:53] And I'm Molly Pettit.
+[00:23:53 --> 00:23:55] Power it down.
