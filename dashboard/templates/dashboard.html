@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStack Lead Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <!-- Assuming logo is copied or served from static, for now using text/icon -->
+                <span class="fw-bold">TechStack Conference</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Key Metrics Row -->
+        <div class="row mb-4 g-3">
+            <div class="col-md-3">
+                <div class="card text-center h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Leads</h6>
+                        <h2 class="card-title fw-bold" id="total-leads">-</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100 border-0 shadow-sm border-start border-4 border-danger">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Hot Leads</h6>
+                        <h2 class="card-title fw-bold text-danger" id="hot-leads">-</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100 border-0 shadow-sm border-start border-4 border-warning">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Warm Leads</h6>
+                        <h2 class="card-title fw-bold text-warning" id="warm-leads">-</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100 border-0 shadow-sm border-start border-4 border-info">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Cold Leads</h6>
+                        <h2 class="card-title fw-bold text-info" id="cold-leads">-</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4 g-3">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white fw-bold">Lead Segments</div>
+                    <div class="card-body">
+                        <canvas id="segmentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white fw-bold">Top Companies</div>
+                    <div class="card-body">
+                        <canvas id="companyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-header bg-white fw-bold">Lead Details</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="leadsTable" class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Title</th>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Country</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Load Stats
+            $.getJSON('/api/stats', function(data) {
+                $('#total-leads').text(data.total.toLocaleString());
+                $('#hot-leads').text(data.hot.toLocaleString());
+                $('#warm-leads').text(data.warm.toLocaleString());
+                $('#cold-leads').text(data.cold.toLocaleString());
+
+                // Segment Chart
+                new Chart(document.getElementById('segmentChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(data.segments),
+                        datasets: [{
+                            data: Object.values(data.segments),
+                            backgroundColor: ['#f43f5e', '#fbbf24', '#3b82f6'], // Rose-500, Amber-400, Blue-500
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { maintainAspectRatio: false }
+                });
+
+                // Company Chart
+                new Chart(document.getElementById('companyChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(data.companies),
+                        datasets: [{
+                            label: 'Leads',
+                            data: Object.values(data.companies),
+                            backgroundColor: '#6366f1', // Primary-500
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        scales: { x: { beginAtZero: true } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            });
+
+            // Load Table
+            $('#leadsTable').DataTable({
+                ajax: {
+                    url: '/api/leads',
+                    dataSrc: ''
+                },
+                columns: [
+                    { 
+                        data: null,
+                        render: function (data, type, row) {
+                            return row['First Name'] + ' ' + row['Last Name'];
+                        }
+                    },
+                    { data: 'Title' },
+                    { data: 'Company' },
+                    { data: 'Email' },
+                    { data: 'Country' },
+                    { 
+                        data: 'Priority_Segment',
+                        render: function(data) {
+                            let color = 'secondary';
+                            if (data === 'Hot') color = 'danger';
+                            if (data === 'Warm') color = 'warning';
+                            if (data === 'Cold') color = 'info';
+                            return `<span class="badge bg-${color}">${data}</span>`;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
